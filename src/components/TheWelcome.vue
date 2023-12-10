@@ -15,7 +15,9 @@ import SupportIcon from './icons/IconSupport.vue'
     <template #heading>Catalogue</template>
 
     Start browsing our catalogue by clicking
-    <a href="/browse" target="_blank" rel="noopener">here</a>
+
+    <router-link to="/browse">here</router-link>
+<!--    <a href="/browse" target="_blank" rel="noopener">here</a>-->
   </WelcomeItem>
 
 <!--  <WelcomeItem>-->
