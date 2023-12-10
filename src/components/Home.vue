@@ -4,17 +4,18 @@ import TheWelcome from './TheWelcome.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="GungaGinga" class="logo" src="@/components/icons/GungaGinga.png" width="250" height="125" />
+  <div class="main-container">
+    <header>
+      <img alt="GungaGinga" class="logo" src="@/components/icons/GungaGinga.png" width="250" height="125" />
 
-    <div class="wrapper">
-      <HelloWorld msg="Welcome to GungaGinga!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+      <div class="wrapper">
+        <HelloWorld msg="Welcome to GungaGinga!" />
+      </div>
+    </header>
+    <main>
+      <TheWelcome />
+    </main>
+  </div>
 </template>
 
 <style scoped>
@@ -42,10 +43,21 @@ body {
     margin: 0 2rem 0 0;
   }
 
+  main {
+    display: flex;
+    place-items: center;
+  }
+
   header .wrapper {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
+  }
+
+  .main-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
   }
 }
 </style>
