@@ -1,5 +1,8 @@
 <script>
+import PhoneView from "@/views/PhoneView.vue";
+
 export default {
+  components: {PhoneView},
   data: () => ({
     rules: [],
     priceRange: [0, 1000],
@@ -14,6 +17,7 @@ export default {
     },
   },
 }
+
 </script>
 
 <template>
@@ -47,6 +51,7 @@ export default {
 
       <div class="item-catalogue">
         <!--   smartphone items/cards goes here   -->
+        <PhoneView />
       </div>
     </div>
   </v-app>
