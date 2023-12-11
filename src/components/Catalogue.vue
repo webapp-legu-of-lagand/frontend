@@ -50,7 +50,6 @@ export default {
       </div>
 
       <div class="item-catalogue">
-        <!--   smartphone items/cards goes here   -->
         <PhoneView />
       </div>
     </div>
