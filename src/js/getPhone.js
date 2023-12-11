@@ -34,6 +34,4 @@ async function getPhones() {
   });
 }
 
-export default {
-    getPhones();
-}
+export { getPhones, phones };

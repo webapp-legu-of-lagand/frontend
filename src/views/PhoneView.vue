@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { db } from "../js/firebase.js";
 import { collection, onSnapshot, getDocs } from "firebase/firestore";
 import PhoneCard from "../components/PhoneCard.vue";
@@ -38,13 +38,31 @@ async function getPhones() {
 onMounted(async () => {
   console.log("Connecting to Firebase");
   await getPhones();
-  //   console.log("Phones Data:", phones.value);
+  console.log(phones);
+});
+
+const props = defineProps({
+  priceRange: {
+    type: Array,
+    default: () => [0, 80000],
+  },
+});
+const filteredPhones = computed(() => {
+  return phones.value.filter(
+    (phone) =>
+      phone.misc.price >= props.priceRange[0] &&
+      phone.misc.price <= props.priceRange[1]
+  );
 });
 </script>
 
 <template>
   <div class="Phones">
-    <PhoneCard v-for="phone in phones" :key="phone.name" :phone="phone" />
+    <PhoneCard
+      v-for="phone in filteredPhones"
+      :key="phone.name"
+      :phone="phone"
+    />
   </div>
 </template>
 
