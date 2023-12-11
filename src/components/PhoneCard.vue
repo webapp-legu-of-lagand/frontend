@@ -20,6 +20,7 @@ defineProps({
       </div>
       <div class="text-box">
         <h2>{{ phone.name }}</h2>
+        <h2>฿{{ phone.misc.price }}</h2>
       </div>
     </div>
   </RouterLink>
