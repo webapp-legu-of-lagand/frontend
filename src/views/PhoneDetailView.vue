@@ -7,6 +7,10 @@ import {
   getDocs,
   where,
   query,
+  addDoc,
+  Timestamp,
+  updateDoc,
+  doc,
 } from "firebase/firestore";
 
 const phone = ref(null);
@@ -37,6 +41,7 @@ async function getPhones() {
       selfie_camera: doc.data().selfie_camera,
       sound: doc.data().sound,
       tests: doc.data().tests,
+      reviews: doc.data().reviews,
     };
     phone.value = phoneData;
   }
@@ -45,7 +50,44 @@ async function getPhones() {
 onMounted(async () => {
   console.log("Connecting to Firebase");
   await getPhones();
+  console.log(phone);
 });
+
+const newReview = ref({
+  content: "",
+  rating: 1, // Default rating
+});
+
+const submitReview = async () => {
+  if (!newReview.value.content.trim()) {
+    alert("Please enter a review.");
+    return;
+  }
+
+  try {
+    const reviewData = {
+      content: newReview.value.content,
+      rating: newReview.value.rating,
+      timestamp: Timestamp.now(),
+    };
+
+    await updateDoc(doc(db, "phones", phone.value.name), {
+      reviews: [...phone.value.reviews, reviewData],
+    });
+
+    phone.value.reviews.push(reviewData);
+
+    newReview.value.content = "";
+    newReview.value.rating = 1;
+  } catch (error) {
+    console.error("Error adding review:", error);
+  }
+};
+
+const formatTime = (timestamp) => {
+  const date = timestamp.toDate();
+  return date.toLocaleDateString();
+};
 </script>
 
 <template>
@@ -60,7 +102,12 @@ onMounted(async () => {
         <div class="description">
           <div class="field" v-for="(value, key) in phone" :key="key">
             <template
-              v-if="key !== 'image' && key !== 'name' && key !== 'brand'"
+              v-if="
+                key !== 'image' &&
+                key !== 'name' &&
+                key !== 'brand' &&
+                key !== 'reviews'
+              "
             >
               <h2>{{ key }}</h2>
               <div class="subField" v-if="typeof value === 'object'">
@@ -72,6 +119,40 @@ onMounted(async () => {
               <div v-else>{{ value }} &nbsp;&nbsp;&nbsp;</div>
               <hr />
             </template>
+          </div>
+        </div>
+      </div>
+      <div class="review">
+        <h1>REVIEW</h1>
+        <!--Review From-->
+        <div class="review-form">
+          <h3>Leave a Review</h3>
+          <form @submit.prevent="submitReview">
+            <textarea
+              class="text-area"
+              v-model="newReview.content"
+              placeholder="Your review..."
+            ></textarea>
+            <label for="rating">Rating:</label>
+            <input
+              class="rating"
+              type="number"
+              v-model="newReview.rating"
+              min="1"
+              max="5"
+            />
+            <button id="submit" type="submit">Submit Review</button>
+          </form>
+        </div>
+        <!--Displaying the reviews-->
+        <div
+          class="display-reviews"
+          v-if="phone.reviews && phone.reviews.length > 0"
+        >
+          <div v-for="review in phone.reviews" :key="review.id" class="review">
+            <p>{{ formatTime(review.timestamp) }} &nbsp;&nbsp;&nbsp;</p>
+            <p>Rating: {{ review.rating }}/5 &nbsp;&nbsp;&nbsp;</p>
+            <p>Comment: {{ review.content }} &nbsp;&nbsp;&nbsp;</p>
           </div>
         </div>
       </div>
@@ -133,5 +214,39 @@ h3 {
 hr {
   margin: 10px 8px;
   border: 0.5px solid ghostwhite;
+}
+
+.review {
+  margin-bottom: 20px;
+}
+
+.review-form {
+  margin-bottom: 20px;
+}
+
+.text-area {
+  color: ghostwhite;
+  border: solid grey;
+  border-radius: 10px;
+  width: 579px;
+  height: 80px;
+}
+
+p {
+  color: ghostwhite;
+  display: inline;
+}
+
+.rating {
+  color: ghostwhite;
+  border: solid grey;
+  width: 40px;
+}
+
+#submit {
+  background-color: grey;
+  border-radius: 10px;
+  padding: 5px;
+  margin-left: 20px;
 }
 </style>
