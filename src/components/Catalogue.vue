@@ -2,11 +2,15 @@
 import PhoneView from "@/views/PhoneView.vue";
 
 export default {
-  components: {PhoneView},
+  components: { PhoneView },
   data: () => ({
     rules: [],
-    priceRange: [0, 1000],
+    priceRange: [0, 80000],
   }),
+  phone: {
+    type: Object,
+    required: true,
+  },
   methods: {
     handleRangeChange(value) {
       // Adjust the thumbs to prevent overlapping
@@ -16,8 +20,7 @@ export default {
       }
     },
   },
-}
-
+};
 </script>
 
 <template>
@@ -25,9 +28,9 @@ export default {
     <div class="catalogue">
       <div class="search-box">
         <v-text-field
-            label="Search"
-            :rules="rules"
-            hide-details="auto"
+          label="Search"
+          :rules="rules"
+          hide-details="auto"
         ></v-text-field>
       </div>
 
@@ -36,25 +39,26 @@ export default {
         <div class="price-slider">
           <v-container>
             <v-range-slider
-                v-model="priceRange"
-                min="0"
-                max="1000"
-                step="10"
-                label="Price Range"
-                @change="handleRangeChange"
-                strict
+              v-model="priceRange"
+              min="0"
+              max="80000"
+              step="100"
+              label="Price Range"
+              @change="handleRangeChange"
+              strict
             ></v-range-slider>
-            <div>Selected Price Range: ${{ priceRange[0] }} - ${{ priceRange[1] }}</div>
+            <div>
+              Selected Price Range: ฿{{ priceRange[0] }} - ฿{{ priceRange[1] }}
+            </div>
           </v-container>
         </div>
       </div>
 
       <div class="item-catalogue">
-        <PhoneView />
+        <PhoneView :priceRange="priceRange" />
       </div>
     </div>
   </v-app>
-
 </template>
 
 <style scoped>
@@ -67,4 +71,3 @@ export default {
   width: 500px;
 }
 </style>
-
