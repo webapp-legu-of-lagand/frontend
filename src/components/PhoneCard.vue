@@ -10,17 +10,30 @@ defineProps({
 </script>
 
 <template>
-  <div class="phone-card">
-    <div class="image">
-      <img :src="phone.image" alt="phone image" />
+  <RouterLink
+    :to="{ name: 'phone-details', params: { name: phone.name } }"
+    class="details"
+  >
+    <div class="phone-card">
+      <div class="image">
+        <img :src="phone.image" alt="phone image" />
+      </div>
+      <div class="text-box">
+        <h2>{{ phone.name }}</h2>
+      </div>
     </div>
-    <div class="text-box">
-      <h2>{{ phone.name }}</h2>
-    </div>
-  </div>
+  </RouterLink>
 </template>
 
 <style scoped>
+.details {
+  text-decoration: none;
+  color: gray;
+}
+
+img {
+  width: auto;
+}
 .phone-card {
   display: flex;
   flex-direction: column;

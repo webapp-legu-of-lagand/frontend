@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/components/Home.vue";
 import Catalogue from "@/components/Catalogue.vue";
+import PhoneDetail from "../views/PhoneDetailView.vue";
 import PhoneView from "@/views/PhoneView.vue";
 
 const routes = [
@@ -19,6 +20,12 @@ const routes = [
     path: "/phones",
     name: "phones",
     component: PhoneView,
+  },
+  {
+    path: "/phone/:name",
+    name: "phone-details",
+    props: true,
+    component: PhoneDetail,
   },
 ];
 
