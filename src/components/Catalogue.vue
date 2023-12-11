@@ -6,6 +6,7 @@ export default {
   data: () => ({
     rules: [],
     priceRange: [0, 80000],
+    searchQuery: "",
   }),
   phone: {
     type: Object,
@@ -28,6 +29,7 @@ export default {
     <div class="catalogue">
       <div class="search-box">
         <v-text-field
+          v-model="searchQuery"
           label="Search"
           :rules="rules"
           hide-details="auto"
@@ -55,7 +57,7 @@ export default {
       </div>
 
       <div class="item-catalogue">
-        <PhoneView :priceRange="priceRange" />
+        <PhoneView :priceRange="priceRange" :searchQuery="searchQuery" />
       </div>
     </div>
   </v-app>

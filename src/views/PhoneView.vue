@@ -38,7 +38,7 @@ async function getPhones() {
 onMounted(async () => {
   console.log("Connecting to Firebase");
   await getPhones();
-  console.log(phones);
+  // console.log(phones);
 });
 
 const props = defineProps({
@@ -46,12 +46,19 @@ const props = defineProps({
     type: Array,
     default: () => [0, 80000],
   },
+  searchQuery: {
+    type: String,
+    default: "",
+  },
 });
 const filteredPhones = computed(() => {
+  console.log("search: ", props.searchQuery);
   return phones.value.filter(
     (phone) =>
       phone.misc.price >= props.priceRange[0] &&
-      phone.misc.price <= props.priceRange[1]
+      phone.misc.price <= props.priceRange[1] &&
+      (phone.name.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
+        phone.brand.toLowerCase().includes(props.searchQuery.toLowerCase()))
   );
 });
 </script>

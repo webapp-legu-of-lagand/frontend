@@ -56,6 +56,7 @@ onMounted(async () => {
       </div>
       <div class="detail">
         <h1>{{ phone.name }}</h1>
+        <h1>฿{{ phone.misc.price }}</h1>
         <div class="description">
           <div class="field" v-for="(value, key) in phone" :key="key">
             <template
@@ -109,8 +110,8 @@ img {
 
 h1 {
   color: ghostwhite;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 2px;
+  margin-bottom: 1px;
   align-self: center;
 }
 
